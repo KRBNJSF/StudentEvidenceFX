@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cz.reindl.studentevidence.HelloController">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+   <Pane prefHeight="139.0" prefWidth="200.0">
+      <children>
+         <MenuButton fx:id="menuButton" layoutX="100.0" layoutY="2.0" mnemonicParsing="false" onAction="#onHelloButtonClick" text="Actions">
+           <items>
+             <MenuItem fx:id="studentsButton" mnemonicParsing="false" onAction="#showStudents" text="Students" />
+             <MenuItem fx:id="gradeButton" mnemonicParsing="false" onAction="#showAverage" text="Average grade" />
+           </items>
+         </MenuButton>
+      </children></Pane>
+   <TextArea fx:id="gradeArea" prefHeight="20.0" prefWidth="20.0" promptText="Insert grade" text="1" />
+   <Label fx:id="gradeLabel" />
+    <Button fx:id="addButton" onAction="#addStudent" text="Add student" />
+
+    <Label fx:id="averageLabel" />
+   <TextArea fx:id="textArea" prefHeight="50.0" prefWidth="50.0" promptText="Insert name" text="Petr" />
+</VBox>

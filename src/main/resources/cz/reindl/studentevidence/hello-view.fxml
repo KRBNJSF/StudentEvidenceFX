@@ -10,17 +10,26 @@
     </padding>
    <Pane prefHeight="139.0" prefWidth="200.0">
       <children>
-         <MenuButton fx:id="menuButton" layoutX="100.0" layoutY="2.0" mnemonicParsing="false" onAction="#onHelloButtonClick" text="Actions">
-           <items>
-             <MenuItem fx:id="studentsButton" mnemonicParsing="false" onAction="#showStudents" text="Students" />
-             <MenuItem fx:id="gradeButton" mnemonicParsing="false" onAction="#showAverage" text="Average grade" />
-           </items>
-         </MenuButton>
+         <HBox layoutY="20.0" prefHeight="100.0" prefWidth="200.0">
+            <children>
+               <MenuButton fx:id="menuButton" mnemonicParsing="false" onAction="#onHelloButtonClick" text="Actions" translateX="60.0" translateY="30.0">
+                 <items>
+                   <MenuItem fx:id="studentsButton" mnemonicParsing="false" onAction="#showStudents" text="Students" />
+                   <MenuItem fx:id="gradeButton" mnemonicParsing="false" onAction="#showAverage" text="Average grade" />
+                     <MenuItem fx:id="deleteGrade" mnemonicParsing="false" text="Delete grade" />
+                 </items>
+               </MenuButton>
+            </children>
+         </HBox>
       </children></Pane>
-   <TextArea fx:id="gradeArea" prefHeight="20.0" prefWidth="20.0" promptText="Insert grade" text="1" />
-   <Label fx:id="gradeLabel" />
-    <Button fx:id="addButton" onAction="#addStudent" text="Add student" />
-
-    <Label fx:id="averageLabel" />
-   <TextArea fx:id="textArea" prefHeight="50.0" prefWidth="50.0" promptText="Insert name" text="Petr" />
+   <VBox prefHeight="200.0" prefWidth="100.0">
+      <children>
+         <TextArea fx:id="gradeArea" prefHeight="20.0" prefWidth="20.0" promptText="Insert grade" text="1" />
+         <Label fx:id="gradeLabel" />
+          <Button fx:id="addButton" onAction="#addStudent" text="Add student" translateX="60.0" />
+      
+          <Label fx:id="averageLabel" />
+         <TextArea fx:id="textArea" prefHeight="50.0" prefWidth="50.0" promptText="Insert name" text="Petr" />
+      </children>
+   </VBox>
 </VBox>

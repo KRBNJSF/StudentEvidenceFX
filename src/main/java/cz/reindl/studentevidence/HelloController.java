@@ -16,7 +16,7 @@ public class HelloController {
     public Label gradeLabel;
     public Label averageLabel;
     public double averageGrade;
-    @FXML
+
     public Map<String, List<Double>> students = new HashMap<String, List<Double>>();
     //public ArrayList<Double> gradeList = new ArrayList<>();
 
@@ -29,25 +29,51 @@ public class HelloController {
         if (students.containsKey(name)) {
             students.get(name).add(grade);
         } else {
-            students.put(name, Arrays.asList(grade));
+            List<Double> grades = new ArrayList<>();
+            students.put(name, grades);
+            students.get(name).add(grade);
         }
         //gradeList.add(grade);
     }
 
     public void showStudents(ActionEvent actionEvent) {
         gradeLabel.setVisible(true);
-        gradeLabel.setText(String.valueOf(students));
+        gradeLabel.setText(String.valueOf(students) + ": " + showGrades());
     }
 
     public void addStudent(ActionEvent actionEvent) {
         addStudent(textArea.getText(), Double.parseDouble(gradeArea.getText()));
         gradeLabel.setVisible(false);
+        TextInputDialog td = new TextInputDialog();
     }
 
     public void showAverage(ActionEvent actionEvent) {
         averageLabel.setVisible(true);
         String studentName = textArea.getText();
-        averageLabel.setText(String.valueOf(students.get(studentName).toString()));
+        averageLabel.setText(studentName + ": " + String.valueOf(calculateAverage(studentName)));
+        //averageLabel.setText(String.valueOf(students.get(studentName).toString()));
         //averageLabel.setText(String.valueOf(students.values()));
     }
+
+    public double calculateAverage(String name) {
+        int number = students.get(name).size();
+        double avg = 0;
+        List<Double> afda = students.get(name);
+        for (int i = 0; i < number; i++) {
+            avg += afda.get(i);
+        }
+        double aveg = avg / number;
+        return aveg;
+    }
+
+    public List<Double> showGrades() {
+        List<Double> afda = students.get(textArea.getText());
+        return afda;
+    }
+
+    public void deleteGrade() {
+        List<Double> stuzu = students.get(textArea.getText());
+        stuzu.remove(students.get(textArea.getText()));
+    }
+
 }

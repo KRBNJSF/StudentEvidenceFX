@@ -1,24 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.*?>
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cz.reindl.studentevidence.HelloController">
+<VBox alignment="CENTER" minHeight="300.0" minWidth="300.0" spacing="20.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cz.reindl.studentevidence.HelloController">
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
    <Pane prefHeight="139.0" prefWidth="200.0">
       <children>
-         <HBox layoutY="20.0" prefHeight="100.0" prefWidth="200.0">
+         <HBox layoutY="20.0" prefHeight="100.0" prefWidth="300.0">
             <children>
-               <MenuButton fx:id="menuButton" mnemonicParsing="false" onAction="#onHelloButtonClick" text="Actions" translateX="60.0" translateY="30.0">
+               <MenuButton fx:id="menuButton" mnemonicParsing="false" onAction="#onHelloButtonClick" prefHeight="25.0" prefWidth="100.0" text="Actions" translateX="60.0" translateY="30.0">
                  <items>
                    <MenuItem fx:id="studentsButton" mnemonicParsing="false" onAction="#showStudents" text="Students" />
                    <MenuItem fx:id="gradeButton" mnemonicParsing="false" onAction="#showAverage" text="Average grade" />
-                     <MenuItem fx:id="deleteGrade" mnemonicParsing="false" text="Delete grade" />
+                     <MenuItem fx:id="deleteGrade" mnemonicParsing="false" onAction="#deleteGrade" text="Delete grade" />
                  </items>
+                  <HBox.margin>
+                     <Insets />
+                  </HBox.margin>
                </MenuButton>
+               <MenuButton fx:id="studentMenu" mnemonicParsing="false" onAction="#addStudentMenu" text="Students" translateX="80.0" translateY="50.0" />
             </children>
          </HBox>
       </children></Pane>
@@ -26,10 +32,16 @@
       <children>
          <TextArea fx:id="gradeArea" prefHeight="20.0" prefWidth="20.0" promptText="Insert grade" text="1" />
          <Label fx:id="gradeLabel" />
-          <Button fx:id="addButton" onAction="#addStudent" text="Add student" translateX="60.0" />
+          <Button fx:id="addButton" alignment="CENTER" contentDisplay="CENTER" onAction="#addStudent" text="Add student" translateX="90.0" />
       
           <Label fx:id="averageLabel" />
-         <TextArea fx:id="textArea" prefHeight="50.0" prefWidth="50.0" promptText="Insert name" text="Petr" />
+         <TextArea fx:id="textArea" prefHeight="50.0" prefWidth="50.0" promptText="Insert name" text="Petr">
+            <cursor>
+               <Cursor fx:constant="TEXT" />
+            </cursor>
+            <effect>
+               <Reflection fraction="0.0" topOpacity="0.0" />
+            </effect></TextArea>
       </children>
    </VBox>
 </VBox>

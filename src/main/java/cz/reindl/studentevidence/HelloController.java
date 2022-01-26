@@ -2,8 +2,13 @@ package cz.reindl.studentevidence;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.*;
 
 public class HelloController {
@@ -18,6 +23,7 @@ public class HelloController {
     public double averageGrade;
 
     public Map<String, List<Double>> students = new HashMap<String, List<Double>>();
+    public MenuButton studentMenu;
     //public ArrayList<Double> gradeList = new ArrayList<>();
 
     @FXML
@@ -38,13 +44,29 @@ public class HelloController {
 
     public void showStudents(ActionEvent actionEvent) {
         gradeLabel.setVisible(true);
-        gradeLabel.setText(String.valueOf(students) + ": " + showGrades());
+        gradeLabel.setText(String.valueOf(students + "\n") + "\n " + showGrades());
     }
 
-    public void addStudent(ActionEvent actionEvent) {
+    public void addStudent(ActionEvent actionEvent) throws IOException {
         addStudent(textArea.getText(), Double.parseDouble(gradeArea.getText()));
         gradeLabel.setVisible(false);
-        TextInputDialog td = new TextInputDialog();
+
+        MenuItem item = new MenuItem();
+        if (studentMenu.getItems().contains(textArea.getText())) {
+            System.out.println("Already added " + textArea.getText());
+        } else {
+            System.out.println("New person added: " + textArea.getText());
+            studentMenu.getItems().add(item);
+            item.setText(textArea.getText());
+        }
+
+        /*Parent root = FXMLLoader.load(getClass().getResource("cz/reindl/studentevidence/addStudent.fxml"));
+        Scene scene = new Scene(root, 400, 400);
+        Stage stage = (Stage) Stage.getWindows();
+        stage.setScene(scene);*/
+        /*TextInputDialog td = new TextInputDialog();
+        td.show();
+        td.setContentText("name");*/
     }
 
     public void showAverage(ActionEvent actionEvent) {
@@ -62,8 +84,7 @@ public class HelloController {
         for (int i = 0; i < number; i++) {
             avg += afda.get(i);
         }
-        double aveg = avg / number;
-        return aveg;
+        return avg / number;
     }
 
     public List<Double> showGrades() {
@@ -72,8 +93,27 @@ public class HelloController {
     }
 
     public void deleteGrade() {
-        List<Double> stuzu = students.get(textArea.getText());
-        stuzu.remove(students.get(textArea.getText()));
+        students.remove(textArea.getText(), gradeArea.getText());
+        students.remove(students.get(textArea.getText()));
+
+
+        if (students.containsKey(textArea.getText())) {
+            students.get(textArea.getText()).remove(1);
+            System.out.println("removed");
+        } else {
+            System.out.println("no");
+        }
+
+        gradeLabel.setText(String.valueOf(students));
+
+        //gradeLabel.setText(String.valueOf(students) + "::" + students.size());
     }
 
+    public void onOpenDialog(ActionEvent actionEvent) {
+
+    }
+
+    public void addStudentMenu(ActionEvent actionEvent) {
+
+    }
 }

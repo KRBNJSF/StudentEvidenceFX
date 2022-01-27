@@ -1,12 +1,9 @@
 package cz.reindl.studentevidence;
 
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.*;
@@ -31,7 +28,7 @@ public class HelloController {
         //welcomeText.setText("Welcome to JavaFX Application!");
     }
 
-    public void addStudent(String name, double grade) {
+    public void addStudentToMap(String name, double grade) {
         if (students.containsKey(name)) {
             students.get(name).add(grade);
         } else {
@@ -48,16 +45,24 @@ public class HelloController {
     }
 
     public void addStudent(ActionEvent actionEvent) throws IOException {
-        addStudent(textArea.getText(), Double.parseDouble(gradeArea.getText()));
+        addStudentToMap(textArea.getText(), Double.parseDouble(gradeArea.getText()));
         gradeLabel.setVisible(false);
 
         MenuItem item = new MenuItem();
-        if (studentMenu.getItems().contains(textArea.getText())) {
+
+        if (checkStudentList(false)) {
             System.out.println("Already added " + textArea.getText());
         } else {
-            System.out.println("New person added: " + textArea.getText());
+            System.out.println("New student added: " + textArea.getText());
             studentMenu.getItems().add(item);
             item.setText(textArea.getText());
+            item.setOnAction(this::showAverage);
+            /*item.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent actionEvent) {
+                    HelloController.this.showAverage(actionEvent);
+                }
+            });*/
         }
 
         /*Parent root = FXMLLoader.load(getClass().getResource("cz/reindl/studentevidence/addStudent.fxml"));
@@ -67,6 +72,15 @@ public class HelloController {
         /*TextInputDialog td = new TextInputDialog();
         td.show();
         td.setContentText("name");*/
+    }
+
+    public boolean checkStudentList(boolean isInList) {
+        for (MenuItem mi : studentMenu.getItems()) {
+            if (textArea.getText().equals(mi.getText())) {
+                isInList = true;
+            }
+        }
+        return isInList;
     }
 
     public void showAverage(ActionEvent actionEvent) {

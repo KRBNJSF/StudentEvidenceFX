@@ -65,7 +65,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>cz.reindl.studentevidence/cz.reindl.studentevidence.HelloApplication</mainClass>
+                            <mainClass>cz.reindl.studentevidence/cz.reindl.studentevidence.Main</mainClass>
                         </configuration>
                     </execution>
                 </executions>

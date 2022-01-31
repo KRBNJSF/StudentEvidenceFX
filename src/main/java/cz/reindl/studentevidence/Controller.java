@@ -8,7 +8,7 @@ import javafx.scene.control.*;
 import java.io.IOException;
 import java.util.*;
 
-public class HelloController {
+public class Controller {
     public TextArea textArea;
     public Button addButton;
     public MenuButton menuButton;
@@ -18,9 +18,12 @@ public class HelloController {
     public Label gradeLabel;
     public Label averageLabel;
     public double averageGrade;
+    List<Double> grades = new ArrayList<>();
 
     public Map<String, List<Double>> students = new HashMap<String, List<Double>>();
     public MenuButton studentMenu;
+    public TreeTableColumn studentTable;
+    public Button addGradeButton;
     //public ArrayList<Double> gradeList = new ArrayList<>();
 
     @FXML
@@ -28,24 +31,21 @@ public class HelloController {
         //welcomeText.setText("Welcome to JavaFX Application!");
     }
 
-    public void addStudentToMap(String name, double grade) {
-        if (students.containsKey(name)) {
-            students.get(name).add(grade);
-        } else {
-            List<Double> grades = new ArrayList<>();
+    public void addStudentToMap(String name) {
+        if (!students.containsKey(name)) {
             students.put(name, grades);
-            students.get(name).add(grade);
         }
         //gradeList.add(grade);
     }
 
     public void showStudents(ActionEvent actionEvent) {
         gradeLabel.setVisible(true);
-        gradeLabel.setText(String.valueOf(students + "\n") + "\n " + showGrades());
+        gradeLabel.setText(String.valueOf(showGrades()));
+        //gradeLabel.setText(String.valueOf(students + "\n") + "\n " + showGrades());
     }
 
     public void addStudent(ActionEvent actionEvent) throws IOException {
-        addStudentToMap(textArea.getText(), Double.parseDouble(gradeArea.getText()));
+        addStudentToMap(textArea.getText());
         gradeLabel.setVisible(false);
 
         MenuItem item = new MenuItem();
@@ -56,13 +56,15 @@ public class HelloController {
             System.out.println("New student added: " + textArea.getText());
             studentMenu.getItems().add(item);
             item.setText(textArea.getText());
-            item.setOnAction(this::showAverage);
-            /*item.setOnAction(new EventHandler<ActionEvent>() {
+            //item.setOnAction(this::showAverage);
+            item.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent actionEvent) {
-                    HelloController.this.showAverage(actionEvent);
+                    textArea.setText(item.getText());
+                    Controller.this.showAverage(actionEvent);
+                    showStudents(actionEvent);
                 }
-            });*/
+            });
         }
 
         /*Parent root = FXMLLoader.load(getClass().getResource("cz/reindl/studentevidence/addStudent.fxml"));
@@ -86,19 +88,26 @@ public class HelloController {
     public void showAverage(ActionEvent actionEvent) {
         averageLabel.setVisible(true);
         String studentName = textArea.getText();
-        averageLabel.setText(studentName + ": " + String.valueOf(calculateAverage(studentName)));
+        if (calculateAverage(studentName) != 0) {
+            averageLabel.setText(studentName + ": " + String.valueOf(calculateAverage(studentName)));
+        } else {
+            System.out.println("no grades");
+        }
         //averageLabel.setText(String.valueOf(students.get(studentName).toString()));
         //averageLabel.setText(String.valueOf(students.values()));
     }
 
     public double calculateAverage(String name) {
-        int number = students.get(name).size();
-        double avg = 0;
-        List<Double> afda = students.get(name);
-        for (int i = 0; i < number; i++) {
-            avg += afda.get(i);
+        if (!students.isEmpty()) {
+            int number = students.get(name).size();
+            double avg = 0;
+            List<Double> afda = students.get(name);
+            for (int i = 0; i < number; i++) {
+                avg += afda.get(i);
+            }
+            return avg / number;
         }
-        return avg / number;
+        return 0;
     }
 
     public List<Double> showGrades() {
@@ -112,10 +121,12 @@ public class HelloController {
 
 
         if (students.containsKey(textArea.getText())) {
-            students.get(textArea.getText()).remove(1);
-            System.out.println("removed");
+            if (!students.get("Petr").isEmpty()) {
+                students.get(textArea.getText()).remove(0);
+                System.out.println("removed oldest");
+            }
         } else {
-            System.out.println("no");
+            System.out.println("no grades left");
         }
 
         gradeLabel.setText(String.valueOf(students));
@@ -129,5 +140,11 @@ public class HelloController {
 
     public void addStudentMenu(ActionEvent actionEvent) {
 
+    }
+
+    public void addNewGrade(ActionEvent actionEvent) {
+        if (students.containsKey(textArea.getText())) {
+            students.get(textArea.getText()).add(Double.valueOf(gradeArea.getText()));
+        }
     }
 }

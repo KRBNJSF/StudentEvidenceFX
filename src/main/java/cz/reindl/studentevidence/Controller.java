@@ -6,6 +6,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
@@ -50,8 +52,14 @@ public class Controller {
     }
 
     public void addStudent(ActionEvent actionEvent) throws IOException {
-        studentTable.setCellValueFactory(new PropertyValueFactory<>("ano"));
-        studentTable.setCellValueFactory(new PropertyValueFactory<>("fasdljfa"));
+        table = new TreeTableView();
+        studentTable = new TreeTableColumn();
+        TreeItem treeItem = new TreeItem(new Model("Ahoj"));
+        //treeItem.getChildren().add();
+        //studentTable.setCellValueFactory(new PropertyValueFactory<>("ano"));
+        //studentTable.setCellValueFactory(new PropertyValueFactory<>("fasdljfa"));
+        table.setTreeColumn(studentTable);
+        table.setRoot(treeItem);
         //table.getColumns().add(studentTable);
         //studentTable.getColumns().set(1, "Petr");
         //studentTable.getColumns().add(1, "Petr");
@@ -190,18 +198,29 @@ public class Controller {
         textArea.setVisible(true);
     }
 
-    public void checkedBox(ActionEvent actionEvent) {
+    public void checkedBox(ActionEvent actionEvent) throws IOException {
         if (checkBox.isSelected()) {
-            checkBox.setText("Enabled");
+            checkBox.setText("Insert areas are visible");
             System.out.println("enabled");
             textArea.setVisible(true);
             gradeArea.setVisible(true);
         } else {
-            checkBox.setText("Disabled");
+            checkBox.setText("Insert areas are invisible");
             System.out.println("disabled");
             textArea.setVisible(false);
             gradeArea.setVisible(false);
         }
-
+        File file = new File("src/main/java/cz/reindl/studentevidence/stats.txt");
+        if (file.createNewFile()) {
+            System.out.println(file.getName());
+        } else {
+            System.out.println("File already exists");
+            FileWriter writer = new FileWriter("src/main/java/cz/reindl/studentevidence/stats.txt");
+            for (int i = 0; i < students.size(); i++) {
+                writer.write(String.valueOf(students.get(i)) + "\n");
+            }
+            writer.close();
+            System.out.println("File rewritten");
+        }
     }
 }

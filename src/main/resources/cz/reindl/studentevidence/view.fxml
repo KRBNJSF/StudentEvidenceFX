@@ -10,50 +10,54 @@
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
-   <Pane prefHeight="200.0" prefWidth="200.0">
-      <children>
-         <TreeTableView prefHeight="200.0" prefWidth="260.0">
-           <columns>
-             <TreeTableColumn fx:id="studentTable" prefWidth="86.0" text="Student" />
-             <TreeTableColumn prefWidth="86.0" text="Avg grade" />
-               <TreeTableColumn prefWidth="86.0" text="Grades" />
-           </columns>
-         </TreeTableView>
-      </children>
-   </Pane>
-   <Pane prefHeight="139.0" prefWidth="200.0">
-      <children>
-         <HBox layoutY="20.0" prefHeight="100.0" prefWidth="300.0">
-            <children>
-               <MenuButton fx:id="menuButton" mnemonicParsing="false" onAction="#onHelloButtonClick" prefHeight="25.0" prefWidth="100.0" text="Actions" translateX="60.0" translateY="30.0">
-                 <items>
-                   <MenuItem fx:id="studentsButton" mnemonicParsing="false" onAction="#showStudents" text="Students" />
-                   <MenuItem fx:id="gradeButton" mnemonicParsing="false" onAction="#showAverage" text="Average grade" />
-                     <MenuItem fx:id="deleteGrade" mnemonicParsing="false" onAction="#deleteGrade" text="Delete grade" />
-                 </items>
-                  <HBox.margin>
-                     <Insets />
-                  </HBox.margin>
-               </MenuButton>
-               <MenuButton fx:id="studentMenu" mnemonicParsing="false" onAction="#addStudentMenu" text="Students" translateX="90.0" translateY="30.0" />
-            </children>
-         </HBox>
-      </children></Pane>
-   <VBox prefHeight="200.0" prefWidth="100.0">
-      <children>
-         <TextArea fx:id="gradeArea" prefHeight="20.0" prefWidth="20.0" promptText="Insert grade" text="1" />
-         <Label fx:id="gradeLabel" />
-          <Button fx:id="addButton" alignment="CENTER" contentDisplay="CENTER" onAction="#addStudent" text="Add student" translateX="90.0" />
-         <Button fx:id="addGradeButton" mnemonicParsing="false" onAction="#addNewGrade" text="Add grade" translateX="95.0" translateY="8.0" />
-      
-          <Label fx:id="averageLabel" />
-         <TextArea fx:id="textArea" prefHeight="50.0" prefWidth="50.0" promptText="Insert name" text="Petr">
-            <cursor>
-               <Cursor fx:constant="TEXT" />
-            </cursor>
-            <effect>
-               <Reflection fraction="0.0" topOpacity="0.0" />
-            </effect></TextArea>
-      </children>
-   </VBox>
+    <Pane prefHeight="200.0" prefWidth="200.0">
+        <children>
+            <TreeTableView fx:id="table" prefHeight="200.0" prefWidth="260.0">
+                <columns>
+                    <TreeTableColumn fx:id="studentTable" prefWidth="65.0" text="Student" />
+                    <TreeTableColumn prefWidth="65.0" text="Avg grade" />
+                    <TreeTableColumn prefWidth="65.0" text="Grades" />
+               <TreeTableColumn prefWidth="65.0" text="Final" />
+                </columns>
+            </TreeTableView>
+        </children>
+    </Pane>
+    <Pane prefHeight="139.0" prefWidth="200.0">
+        <children>
+            <HBox layoutY="20.0" prefHeight="100.0" prefWidth="300.0">
+                <children>
+                    <MenuButton fx:id="menuButton" mnemonicParsing="false" onAction="#onHelloButtonClick" prefHeight="25.0" prefWidth="100.0" text="Actions" translateX="60.0" translateY="30.0">
+                        <items>
+                            <MenuItem fx:id="deleteGrade" mnemonicParsing="false" onAction="#deleteGrade" text="Delete grade" />
+                     <MenuItem mnemonicParsing="false" onAction="#showTextAreaLabel" text="Add student" />
+                     <MenuItem mnemonicParsing="false" onAction="#showGradeLabel" text="Add grade" />
+                        </items>
+                        <HBox.margin>
+                            <Insets />
+                        </HBox.margin>
+                    </MenuButton>
+                    <MenuButton fx:id="studentMenu" mnemonicParsing="false" onAction="#addStudentMenu" text="Students" translateX="90.0" translateY="30.0" />
+                </children>
+            </HBox>
+         <CheckBox fx:id="checkBox" layoutX="94.0" mnemonicParsing="false" onAction="#checkedBox" text="Check" />
+        </children>
+    </Pane>
+    <VBox prefHeight="200.0" prefWidth="100.0">
+        <children>
+            <TextArea fx:id="gradeArea" prefHeight="20.0" prefWidth="20.0" promptText="Insert grade" visible="false" />
+            <Label fx:id="gradeLabel" />
+            <Button fx:id="addButton" alignment="CENTER" contentDisplay="CENTER" onAction="#addStudent" text="Add student" translateX="90.0" />
+            <Button fx:id="addGradeButton" mnemonicParsing="false" onAction="#addNewGrade" text="Add grade" translateX="95.0" translateY="8.0" />
+
+            <Label fx:id="averageLabel" />
+            <TextArea fx:id="textArea" prefHeight="50.0" prefWidth="50.0" promptText="Insert name" visible="false">
+                <cursor>
+                    <Cursor fx:constant="TEXT" />
+                </cursor>
+                <effect>
+                    <Reflection fraction="0.0" topOpacity="0.0" />
+                </effect>
+            </TextArea>
+        </children>
+    </VBox>
 </VBox>

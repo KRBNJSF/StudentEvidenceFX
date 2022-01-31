@@ -4,8 +4,11 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.io.IOException;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.*;
 
 public class Controller {
@@ -18,6 +21,8 @@ public class Controller {
     public Label gradeLabel;
     public Label averageLabel;
     public double averageGrade;
+    public TreeTableView table;
+    public CheckBox checkBox;
     List<Double> grades = new ArrayList<>();
 
     public Map<String, List<Double>> students = new HashMap<String, List<Double>>();
@@ -38,34 +43,45 @@ public class Controller {
         //gradeList.add(grade);
     }
 
-    public void showStudents(ActionEvent actionEvent) {
+    public void showAllGrades(ActionEvent actionEvent) {
         gradeLabel.setVisible(true);
         gradeLabel.setText(String.valueOf(showGrades()));
         //gradeLabel.setText(String.valueOf(students + "\n") + "\n " + showGrades());
     }
 
     public void addStudent(ActionEvent actionEvent) throws IOException {
-        addStudentToMap(textArea.getText());
-        gradeLabel.setVisible(false);
-
-        MenuItem item = new MenuItem();
-
-        if (checkStudentList(false)) {
-            System.out.println("Already added " + textArea.getText());
+        studentTable.setCellValueFactory(new PropertyValueFactory<>("ano"));
+        studentTable.setCellValueFactory(new PropertyValueFactory<>("fasdljfa"));
+        //table.getColumns().add(studentTable);
+        //studentTable.getColumns().set(1, "Petr");
+        //studentTable.getColumns().add(1, "Petr");
+        if (textArea.getText().isBlank()) {
+            System.out.println("Insert name");
         } else {
-            System.out.println("New student added: " + textArea.getText());
-            studentMenu.getItems().add(item);
-            item.setText(textArea.getText());
-            //item.setOnAction(this::showAverage);
-            item.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent actionEvent) {
-                    textArea.setText(item.getText());
-                    Controller.this.showAverage(actionEvent);
-                    showStudents(actionEvent);
-                }
-            });
+            addStudentToMap(textArea.getText());
+            gradeLabel.setVisible(false);
+
+            MenuItem item = new MenuItem();
+
+            if (checkStudentList(false)) {
+                System.out.println("Already added " + textArea.getText());
+            } else {
+                System.out.println("New student added: " + textArea.getText());
+                studentMenu.getItems().add(item);
+                item.setText(textArea.getText());
+                //item.setOnAction(this::showAverage);
+                item.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        textArea.setText(item.getText());
+                        Controller.this.showAverage(actionEvent);
+                        showAllGrades(actionEvent);
+                    }
+                });
+            }
         }
+
+
 
         /*Parent root = FXMLLoader.load(getClass().getResource("cz/reindl/studentevidence/addStudent.fxml"));
         Scene scene = new Scene(root, 400, 400);
@@ -86,10 +102,12 @@ public class Controller {
     }
 
     public void showAverage(ActionEvent actionEvent) {
+        DecimalFormat df = new DecimalFormat("#.##");
+        df.setRoundingMode(RoundingMode.CEILING);
         averageLabel.setVisible(true);
         String studentName = textArea.getText();
         if (calculateAverage(studentName) != 0) {
-            averageLabel.setText(studentName + ": " + String.valueOf(calculateAverage(studentName)));
+            averageLabel.setText(studentName + ": " + String.valueOf(df.format(calculateAverage(studentName))));
         } else {
             System.out.println("no grades");
         }
@@ -111,8 +129,8 @@ public class Controller {
     }
 
     public List<Double> showGrades() {
-        List<Double> afda = students.get(textArea.getText());
-        return afda;
+        List<Double> grades = students.get(textArea.getText());
+        return grades;
     }
 
     public void deleteGrade() {
@@ -121,7 +139,7 @@ public class Controller {
 
 
         if (students.containsKey(textArea.getText())) {
-            if (!students.get("Petr").isEmpty()) {
+            if (!students.get(textArea.getText()).isEmpty()) {
                 students.get(textArea.getText()).remove(0);
                 System.out.println("removed oldest");
             }
@@ -143,13 +161,47 @@ public class Controller {
     }
 
     public void addNewGrade(ActionEvent actionEvent) {
-        if (students.containsKey(textArea.getText())) {
-            if (Integer.parseInt(gradeArea.getText()) <= 5 && Integer.parseInt(gradeArea.getText()) >= 1) {
-                students.get(textArea.getText()).add(Double.valueOf(gradeArea.getText()));
-                gradeLabel.setText(String.valueOf(showGrades()));
-            } else {
-                System.out.println("Incompatible number");
+        if (!gradeArea.getText().isBlank()) {
+            if (students.containsKey(textArea.getText())) {
+                try {
+                    Double.parseDouble(gradeArea.getText());
+                } catch (NumberFormatException e) {
+                    System.out.println("Wrong input format");
+                    gradeArea.setText("1");
+                }
+                if (Double.parseDouble(gradeArea.getText()) <= 5 && Double.parseDouble(gradeArea.getText()) >= 1) {
+                    System.out.println("Grade added: " + gradeArea.getText());
+                    students.get(textArea.getText()).add(Double.valueOf(gradeArea.getText()));
+                    gradeLabel.setText(String.valueOf(showGrades()));
+                } else {
+                    System.out.println("Incompatible number");
+                }
             }
+        } else {
+            System.out.println("Insert grade");
         }
+    }
+
+    public void showGradeLabel(ActionEvent actionEvent) {
+        gradeArea.setVisible(true);
+    }
+
+    public void showTextAreaLabel(ActionEvent actionEvent) {
+        textArea.setVisible(true);
+    }
+
+    public void checkedBox(ActionEvent actionEvent) {
+        if (checkBox.isSelected()) {
+            checkBox.setText("Enabled");
+            System.out.println("enabled");
+            textArea.setVisible(true);
+            gradeArea.setVisible(true);
+        } else {
+            checkBox.setText("Disabled");
+            System.out.println("disabled");
+            textArea.setVisible(false);
+            gradeArea.setVisible(false);
+        }
+
     }
 }

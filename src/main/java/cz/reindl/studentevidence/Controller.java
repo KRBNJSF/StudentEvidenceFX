@@ -33,7 +33,7 @@ public class Controller {
 
     public void addStudentToMap(String name) {
         if (!students.containsKey(name)) {
-            students.put(name, grades);
+            students.put(name, new ArrayList<>());
         }
         //gradeList.add(grade);
     }
@@ -129,7 +129,7 @@ public class Controller {
             System.out.println("no grades left");
         }
 
-        gradeLabel.setText(String.valueOf(students));
+        gradeLabel.setText(String.valueOf(showGrades()));
 
         //gradeLabel.setText(String.valueOf(students) + "::" + students.size());
     }
@@ -144,7 +144,12 @@ public class Controller {
 
     public void addNewGrade(ActionEvent actionEvent) {
         if (students.containsKey(textArea.getText())) {
-            students.get(textArea.getText()).add(Double.valueOf(gradeArea.getText()));
+            if (Integer.parseInt(gradeArea.getText()) <= 5 && Integer.parseInt(gradeArea.getText()) >= 1) {
+                students.get(textArea.getText()).add(Double.valueOf(gradeArea.getText()));
+                gradeLabel.setText(String.valueOf(showGrades()));
+            } else {
+                System.out.println("Incompatible number");
+            }
         }
     }
 }
